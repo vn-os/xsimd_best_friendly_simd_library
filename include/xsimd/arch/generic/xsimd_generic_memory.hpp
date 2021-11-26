@@ -132,6 +132,13 @@ namespace xsimd
             return store_aligned<A>(mem, self, generic {});
         }
 
+        // swizzle
+        template <class A, class T, class ITy, ITy... Vs>
+        inline batch<std::complex<T>, A> swizzle(batch<std::complex<T>, A> const& self, batch_constant<batch<ITy, A>, Vs...> mask, requires_arch<generic>) noexcept
+        {
+            return { swizzle(self.real(), mask), swizzle(self.imag(), mask) };
+        }
+
         namespace detail
         {
             template <class A, class T>
